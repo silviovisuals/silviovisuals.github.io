@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>silvio.visuals · Grafiche sportive per giocatori e club</title>
+<meta name="description" content="silvio.visuals: grafiche e video sportivi per giocatori professionisti, agenzie e club. Match day, highlights e personal branding.">
+<link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32.png">
+<link rel="apple-touch-icon" href="img/favicon-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;700;800&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0d1218; --panel:#161d26; --line:#263040; --text:#eef1f5; --muted:#9aa6b6; --accent:#e66d04; --on-accent:#14181e;
+  --display:"Barlow Condensed","Arial Narrow",Impact,sans-serif; --body:"Barlow",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --max:1180px;
+}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+body{background:var(--bg);color:var(--text);font:400 1.0625rem/1.6 var(--body);-webkit-font-smoothing:antialiased}
+img,video{display:block;max-width:100%}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 clamp(1rem,4vw,2rem)}
+
+/* header */
+header{position:sticky;top:0;z-index:20;background:rgba(13,18,24,.88);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+header .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
+.logo{display:flex;align-items:center;gap:.6rem;font:800 1.5rem/1 var(--display);letter-spacing:.02em;text-decoration:none}
+.logo img{width:auto}
+.logo .ico{height:36px}
+.logo .word{height:17px}
+nav{display:flex;gap:clamp(.9rem,3vw,2rem);align-items:center}
+nav a{text-decoration:none;font-weight:500;color:var(--muted)}
+nav a:hover{color:var(--text)}
+nav a.cta{background:var(--accent);color:var(--on-accent);padding:.45rem 1rem;border-radius:4px;font-weight:600}
+@media(max-width:820px){nav a:not(.cta){display:none}}
+
+/* hero */
+.hero{position:relative;min-height:min(86vh,760px);display:flex;align-items:flex-end;overflow:hidden;border-bottom:1px solid var(--line)}
+.hero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.55}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,var(--bg) 4%,rgba(13,18,24,.2) 60%,rgba(13,18,24,.55))}
+.hero .wrap{position:relative;z-index:1;padding-top:3rem;padding-bottom:clamp(2rem,6vw,4.5rem);width:100%;display:grid;grid-template-columns:1.05fr .95fr;gap:2rem;align-items:end}
+.hero small{display:block;color:var(--accent);font-weight:600;margin-bottom:1rem;letter-spacing:.22em;text-transform:uppercase;font-size:.85rem}
+h1{font:800 clamp(3rem,7vw,6rem)/.92 var(--display);text-transform:uppercase;letter-spacing:-.01em;max-width:12ch}
+.hero p{max-width:46ch;margin:1.4rem 0 1.8rem;color:#cdd5df;font-size:1.15rem}
+.btn{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:600;text-decoration:none;padding:.85rem 1.6rem;border-radius:4px;border:0;cursor:pointer;font-family:inherit;font-size:1rem}
+.btn:hover{filter:brightness(1.08)}
+.btn.ghost{background:transparent;color:var(--text);border:1px solid var(--line);margin-left:.6rem}
+
+/* sections */
+section{padding:clamp(3.5rem,9vw,6.5rem) 0}
+h2{font:800 clamp(2.3rem,6vw,4rem)/.95 var(--display);text-transform:uppercase;margin-bottom:.6rem}
+.lead{color:var(--muted);max-width:52ch}
+
+/* work */
+.lang{display:flex;border:1px solid var(--line);border-radius:4px;overflow:hidden}
+.lang button{background:transparent;color:var(--muted);border:0;padding:.35rem .7rem;font:600 .85rem var(--body);cursor:pointer}
+.lang button[aria-pressed="true"]{background:var(--accent);color:var(--on-accent)}
+/* services + steps */
+#servizi,#come-funziona{border-top:1px solid var(--line)}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin-top:2.2rem}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:1.5rem 1.4rem 1.7rem;transition:border-color .2s,transform .2s}
+.card:hover{border-color:var(--accent);transform:translateY(-3px)}
+.card .n{font:800 2.6rem/1 var(--display);color:var(--accent)}
+.card h3{font:700 1.5rem/1.1 var(--display);text-transform:uppercase;margin:.8rem 0 .5rem}
+.card p{color:var(--muted);font-size:1rem}
+.steps{list-style:none;padding:0;counter-reset:s;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:clamp(1.2rem,3vw,2.5rem);margin:2.2rem 0 2.4rem}
+.steps li{counter-increment:s;border-top:2px solid var(--accent);padding-top:1rem}
+.steps li::before{content:"0" counter(s);font:800 3.4rem/1 var(--display);color:var(--accent);display:block}
+.steps h3{font:700 1.5rem/1.1 var(--display);text-transform:uppercase;margin:.6rem 0 .4rem}
+.steps p{color:var(--muted)}
+@media(prefers-reduced-motion:reduce){.card{transition:none}}
+.reel{display:flex;align-items:center;gap:1rem;flex-wrap:wrap;margin-top:14px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:1.1rem 1.3rem}
+.reel>div{flex:1;min-width:200px}
+.reel strong{display:block;font:700 1.3rem var(--display);text-transform:uppercase}
+.reel span{color:var(--muted)}
+.reel .reel-ic{flex:none;width:48px;height:48px;border-radius:8px;background:var(--bg);border:1px solid var(--line);display:grid;place-items:center}
+.reel .reel-ic::before{content:"";border-left:13px solid var(--accent);border-top:8px solid transparent;border-bottom:8px solid transparent;margin-left:3px}
+.filters{display:flex;gap:.5rem;margin:2rem 0 1.6rem;flex-wrap:wrap}
+.filters button{background:transparent;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:.45rem 1.1rem;font:500 .95rem var(--body);cursor:pointer}
+.filters button[aria-pressed="true"]{background:var(--text);color:var(--bg);border-color:var(--text)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.work{position:relative;display:block;width:100%;aspect-ratio:9/16;padding:0;border:0;background:var(--panel);border-radius:10px;overflow:hidden;cursor:pointer;text-align:left;color:inherit}
+.work img,.work video{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+.work:hover img,.work:hover video{transform:scale(1.04)}
+.work .cap{position:absolute;inset:auto 0 0 0;padding:3.5rem 1rem .9rem;background:linear-gradient(transparent,rgba(0,0,0,.88));text-shadow:0 1px 6px rgba(0,0,0,.6);font-weight:500;line-height:1.3}
+.work .cap small{display:block;color:var(--accent);font-weight:600;font-size:.82rem}
+.work .play{position:absolute;top:12px;right:12px;width:44px;height:44px;border-radius:50%;background:var(--accent);display:grid;place-items:center}
+.work .play::before{content:"";border-left:14px solid var(--on-accent);border-top:9px solid transparent;border-bottom:9px solid transparent;margin-left:4px}
+.work[hidden]{display:none}
+
+/* about */
+#chi-sono{background:var(--panel);border-block:1px solid var(--line)}
+.about{display:grid;grid-template-columns:1fr 1.2fr;gap:clamp(1.5rem,5vw,4rem);align-items:center}
+.about img{width:100%;aspect-ratio:4/5;object-fit:cover;object-position:50% 30%;border-radius:6px}
+.about p+p{margin-top:1rem}
+.about .stats{display:flex;gap:2.2rem;margin-top:2rem;flex-wrap:wrap}
+.stats b{display:block;font:800 3rem/1 var(--display);color:var(--accent)}
+.stats span{color:var(--muted);font-size:.95rem}
+@media(max-width:760px){.about{grid-template-columns:1fr}.about img{aspect-ratio:3/2}}
+
+/* contact */
+.contact{display:grid;grid-template-columns:1fr 1fr;gap:clamp(1.5rem,5vw,4rem)}
+.links{list-style:none;padding:0;margin-top:1.6rem;display:grid;gap:.9rem}
+.links a{font:700 1.5rem var(--display);text-decoration:none;border-bottom:1px solid var(--line);display:block;padding-bottom:.6rem}
+.links a:hover{color:var(--accent)}
+form{display:grid;gap:1rem}
+label{display:grid;gap:.35rem;font-weight:500;font-size:.95rem}
+input,textarea{background:var(--bg);color:var(--text);border:1px solid var(--line);border-radius:4px;padding:.75rem .9rem;font:inherit}
+textarea{min-height:130px;resize:vertical}
+@media(max-width:760px){.contact{grid-template-columns:1fr}}
+footer{padding:2rem 0;border-top:1px solid var(--line);color:var(--muted);font-size:.9rem}
+
+/* eyebrow, phones, ticker, stats bar, standard */
+.eyebrow{font:600 .8rem var(--body);letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin-bottom:.8rem}
+.phones{position:relative;width:100%;max-width:520px;margin-inline:auto;aspect-ratio:1/1.1}
+.phone{position:absolute;width:38%;aspect-ratio:9/18.5;border:6px solid #2a3444;border-radius:30px;overflow:hidden;background:#000;box-shadow:0 30px 60px rgba(0,0,0,.5)}
+.phone img{width:100%;height:100%;object-fit:cover}
+.p1{left:-3%;top:24%;transform:rotate(-8deg)}
+.p2{right:0;top:0;transform:rotate(7deg)}
+.p3{left:31%;top:17%;transform:rotate(1.5deg);z-index:2;width:40%}
+@media(max-width:900px){.hero .wrap{grid-template-columns:1fr}}
+.ticker{overflow:hidden;border-bottom:1px solid var(--line);background:var(--panel);padding:1.1rem 0;white-space:nowrap}
+.track{display:inline-flex;animation:scroll 40s linear infinite}
+.ticker:hover .track{animation-play-state:paused}
+.track span{font:800 1.9rem/1 var(--display);text-transform:uppercase;padding:0 1.8rem;position:relative}
+.track span::after{content:"•";color:var(--accent);position:absolute;right:-.25rem}
+.track span:nth-child(even){color:transparent;-webkit-text-stroke:1px var(--muted)}
+@keyframes scroll{to{transform:translateX(-50%)}}
+@media(prefers-reduced-motion:reduce){.track{animation:none}.ticker{overflow-x:auto}}
+.bar{padding:2.5rem 0 0}
+.statsbar{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.statsbar>div{padding:1.4rem 1.6rem;border-left:1px solid var(--line)}
+.statsbar>div:first-child{border-left:0}
+.statsbar b{display:block;font:800 3rem/1 var(--display)}
+.statsbar span{display:block;margin-top:.5rem;color:var(--muted);font-size:.78rem;letter-spacing:.18em;text-transform:uppercase}
+#standard{border-top:1px solid var(--line)}
+.big{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin-top:2.2rem}
+.bigcard{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:1.5rem 1.6rem 1.8rem}
+.bigcard .k{color:var(--muted);font-size:.8rem;letter-spacing:.2em}
+.bigcard .v{font:800 clamp(3.2rem,6vw,4.6rem)/1 var(--display);text-transform:uppercase;margin:2.2rem 0 1rem;padding-bottom:1rem;border-bottom:3px solid var(--accent)}
+.bigcard h3{font:700 1.4rem/1.1 var(--display);text-transform:uppercase;margin-bottom:.4rem}
+.bigcard p{color:var(--muted)}
+fieldset{border:0;padding:0;min-width:0}
+legend{font-weight:500;font-size:.95rem;margin-bottom:.35rem;padding:0}
+.segrow{display:flex;border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.segrow label{flex:1;display:block;position:relative;cursor:pointer;font-weight:500;text-align:center}
+.segrow input{position:absolute;opacity:0;inset:0;width:100%;height:100%;cursor:pointer}
+.segrow span{display:block;padding:.7rem .4rem;color:var(--muted)}
+.segrow input:checked+span{background:var(--accent);color:var(--on-accent);font-weight:600}
+.segrow input:focus-visible+span{outline:3px solid var(--accent);outline-offset:-3px}
+/* lightbox */
+dialog{border:0;background:transparent;color:var(--text);max-width:none;max-height:none;width:100%;height:100%;padding:0}
+dialog::backdrop{background:rgba(5,8,12,.94)}
+.lb{height:100%;display:grid;grid-template-columns:minmax(0,1fr);gap:1rem;padding:1rem}
+.lb.has-info{grid-template-columns:minmax(0,1fr) min(380px,36vw)}
+.lb .main{position:relative;display:grid;grid-template-rows:1fr auto;min-height:0}
+.lb .stage{width:100%;height:100%;display:grid;place-items:center;min-height:0}
+.lb .stage>*{max-width:100%;max-height:80vh;width:auto;height:auto;border-radius:6px}
+.lb iframe{width:min(1100px,100%);aspect-ratio:16/9;height:auto;border:0}
+.lb #lbCap{padding:.8rem 0 0;text-align:center}
+.lb button{position:absolute;background:var(--panel);color:var(--text);border:1px solid var(--line);width:46px;height:46px;border-radius:50%;font-size:1.3rem;cursor:pointer;z-index:3}
+.lb .x{top:14px;right:14px}.lb .prev{left:6px;top:50%}.lb .next{right:6px;top:50%}
+.lb aside{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:3.2rem 1.4rem 1.4rem;overflow:auto;align-self:center;max-height:calc(100vh - 2rem)}
+.lb aside h3{font:800 2rem/1 var(--display);text-transform:uppercase}
+.lb aside dl{display:grid;grid-template-columns:1fr 1fr;gap:.9rem 1rem;margin:1.2rem 0}
+.lb aside dt{color:var(--muted);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase}
+.lb aside dd{margin:.15rem 0 0;font-weight:600}
+.lb aside h4{color:var(--accent);font-size:.78rem;letter-spacing:.2em;text-transform:uppercase;border-top:1px solid var(--line);padding-top:1rem;margin-top:1rem}
+.lb aside p{color:var(--muted);margin-top:.4rem}
+@media(max-width:820px){.lb.has-info{grid-template-columns:1fr;grid-auto-rows:min-content;overflow:auto}.lb .stage>*{max-height:55vh}.lb aside{align-self:start;max-height:none}.lb aside h3{padding-right:2.5rem}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a class="logo" href="#" id="logo"></a>
+    <nav>
+      <a href="#lavori" data-i18n="navWorks"></a>
+      <a href="#servizi" data-i18n="navServices"></a>
+      <a href="#chi-sono" data-i18n="navAbout"></a>
+      <a class="cta" href="#contatti" data-i18n="navContact"></a>
+      <div class="lang" role="group" aria-label="Language"><button type="button" data-lang="it">IT</button><button type="button" data-lang="en">EN</button></div>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="hero">
+    <img class="hero-img" id="heroImg" alt="" hidden>
+    <div class="wrap">
+      <div class="hero-text">
+      <small id="heroTag"></small>
+      <h1 id="heroTitle"></h1>
+      <p id="heroText"></p>
+      <a class="btn" href="#lavori" data-i18n="heroBtn1"></a><a class="btn ghost" href="#contatti" data-i18n="navContact"></a>
+      </div>
+      <div class="phones" id="phones" aria-hidden="true"></div>
+    </div>
+  </div>
+
+  <div class="ticker" aria-hidden="true"><div class="track" id="track"></div></div>
+
+  <section class="bar"><div class="wrap"><div class="statsbar" id="stats"></div></div></section>
+
+  <section id="lavori">
+    <div class="wrap">
+      <p class="eyebrow" data-i18n="eyWork"></p>
+      <h2 data-i18n="worksTitle"></h2>
+      <p class="lead" id="worksIntro"></p>
+      <div class="filters" id="filters" role="group" aria-label="Filtra i lavori"></div>
+      <div class="grid" id="grid"></div>
+      <div class="reel">
+        <span class="reel-ic" aria-hidden="true"></span>
+        <div><strong data-i18n="reelTitle"></strong><span data-i18n="reelText"></span></div>
+        <a class="btn" id="reelBtn" target="_blank" rel="noopener" data-i18n="reelBtn"></a>
+      </div>
+    </div>
+  </section>
+
+  <section id="servizi">
+    <div class="wrap">
+      <p class="eyebrow" data-i18n="eyServices"></p>
+      <h2 id="servTitle"></h2>
+      <p class="lead" id="servIntro"></p>
+      <div class="cards" id="cards"></div>
+    </div>
+  </section>
+
+  <section id="standard">
+    <div class="wrap">
+      <p class="eyebrow" data-i18n="eyStandard"></p>
+      <h2 id="stdTitle"></h2>
+      <div class="big" id="big"></div>
+    </div>
+  </section>
+
+  <section id="come-funziona">
+    <div class="wrap">
+      <p class="eyebrow" data-i18n="eySteps"></p>
+      <h2 id="stepsTitle"></h2>
+      <ol class="steps" id="steps"></ol>
+      <a class="btn" href="#contatti" id="stepsCta"></a>
+    </div>
+  </section>
+
+  <section id="chi-sono">
+    <div class="wrap about">
+      <img id="aboutImg" alt="">
+      <div>
+        <p class="eyebrow" data-i18n="eyAbout"></p>
+        <h2 data-i18n="aboutTitle"></h2>
+        <div id="aboutText"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contatti">
+    <div class="wrap contact">
+      <div>
+        <p class="eyebrow" data-i18n="eyContact"></p>
+        <h2 data-i18n="contactTitle"></h2>
+        <p class="lead" id="contactText"></p>
+        <ul class="links" id="links"></ul>
+      </div>
+      <form id="form">
+        <label><span data-i18n="fName"></span><input name="nome" required autocomplete="name"></label>
+        <label><span data-i18n="fEmail"></span><input name="email" type="email" required autocomplete="email"></label>
+        <fieldset>
+          <legend data-i18n="fRole"></legend>
+          <div class="segrow">
+            <label><input type="radio" name="role" value="rPlayer" checked><span data-i18n="rPlayer"></span></label>
+            <label><input type="radio" name="role" value="rAgency"><span data-i18n="rAgency"></span></label>
+            <label><input type="radio" name="role" value="rClub"><span data-i18n="rClub"></span></label>
+          </div>
+        </fieldset>
+        <label><span data-i18n="fMsg"></span><textarea name="msg" required></textarea></label>
+        <button class="btn" type="submit" data-i18n="fSend"></button>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer><div class="wrap" id="footer"></div></footer>
+
+<dialog id="lb" aria-label="Preview">
+  <div class="lb" id="lbBox">
+    <button class="x" aria-label="Chiudi">✕</button>
+    <div class="main">
+      <button class="prev" aria-label="Precedente">‹</button>
+      <button class="next" aria-label="Successivo">›</button>
+      <div class="stage" id="stage"></div>
+      <p id="lbCap"></p>
+    </div>
+    <aside id="lbInfo" hidden></aside>
+  </div>
+</dialog>
+
+<script>
+/* ==========================================================
+   ✏️  QUI MODIFICHI TUTTO IL SITO  ·  EDIT EVERYTHING HERE
+   Non serve toccare il resto del file.
+   ========================================================== */
+
+const DEFAULT_LANG = "it";   // lingua di partenza: "it" oppure "en" (se il browser è in inglese, parte in EN)
+
+// Dati uguali in entrambe le lingue
+const SITE = {
+  nome: "Silvio", cognome: "Ghilardi",
+  brand: "silvio", brandAccento: ".visuals",   // nome pagina: bianco + arancione
+  logoIcona: "img/logo-icon.png",          // logo sfumato (icona)
+  logoScritta: "img/logo-wordmark.png",    // logo esteso (scritta bianca)
+  heroImg: "",            // immagine di apertura, es. "img/hero.jpg" (vuoto = sfondo scuro)
+  fotoProfilo: "img/silvio.jpg",
+  email: "silvio.visuals@gmail.com",
+  reel: "https://www.instagram.com/stories/highlights/18209844733339078/",   // highlights su Instagram
+  telefoni: ["bertoli", "faye", "milani"],   // le 3 grafiche nei telefoni in apertura (nome file senza estensione): sinistra, destra, centro
+  link: [                 // aggiungi o togli i social
+    { nome: "@silvio.visuals", url: "https://instagram.com/silvio.visuals" },
+    { nome: "WhatsApp", url: "https://wa.me/393331835529" }
+  ]
+};
+
+// Testi nelle due lingue
+const T = {
+  it: {
+    tag: "Sports graphic designer",
+    titolo: "Un’immagine all’altezza del tuo livello.",
+    sottotitolo: "Grafiche e video su misura per giocatori professionisti: match day, highlights e personal branding per portare la tua presenza sui social al livello del tuo gioco. Lavoro anche con agenzie e club.",
+    introLavori: "Una selezione di grafiche e video realizzati per giocatori, agenzie e club. Clicca per ingrandire.",
+    chiSono: [
+      "Sono Silvio Ghilardi e creo grafiche e video sportivi. Il mio obiettivo è dare a ogni giocatore professionista un’immagine social riconoscibile e curata, che amplifichi la sua presenza partita dopo partita.",
+      "Lavoro con i giocatori, ma anche con agenzie che vogliono valorizzare i propri assistiti e con club che cercano una comunicazione curata, consegnata nei tempi giusti, anche a ridosso della partita."
+    ],
+    numeri: [                       // aggiungi, togli o cambia i numeri
+      { valore: "4+",   etichetta: "anni di esperienza" },
+      { valore: "30+",  etichetta: "collaborazioni" },
+      { valore: "100%", etichetta: "su misura per te" }
+    ],
+    contattiTesto: "Sei un giocatore professionista e vuoi far crescere la tua presenza sui social? Scrivimi e costruiamo insieme la tua immagine. Se sei un’agenzia o un club, parliamo di una collaborazione su misura.",
+    ticker: ["Match day", "Video highlights", "Personal branding", "Annunci e traguardi", "Pacchetti per agenzie", "Grafiche su misura"],
+    standard: {
+      titolo: "Lo standard.",
+      voci: [
+        { v: "24h", t: "Risposta rapida", d: "Ti rispondo entro 24 ore e lavoriamo sui tempi della tua partita, così pubblichi quando il momento conta ancora." },
+        { v: "Su misura", t: "Design per ogni giocatore", d: "Niente modelli già pronti: ogni grafica è pensata attorno a te, al tuo stile e ai tuoi colori." },
+        { v: "Pro", t: "Per chi fa sul serio", d: "Per i giocatori che vogliono un profilo all’altezza del proprio livello." }
+      ]
+    },
+    servizi: {
+      titolo: "Cosa realizzo",
+      intro: "Tutto quello che serve a un giocatore professionista per curare la propria presenza sui social, e per chi lavora con più atleti.",
+      voci: [
+        { t: "Match day", d: "Una grafica pensata per ogni partita, per presentare la sfida al tuo pubblico e accompagnare il giorno della gara." },
+        { t: "Video highlights", d: "Montaggi dinamici delle tue migliori giocate, pronti per i social." },
+        { t: "Personal branding", d: "Template, colori e stile riconoscibili: un’identità visiva solo tua." },
+        { t: "Annunci e traguardi", d: "Rinnovi, gol, presenze e record: i momenti importanti annunciati come meritano." },
+        { t: "Per agenzie e club", d: "Pacchetti continuativi per più atleti o per l’intera stagione, con grafica coordinata." }
+      ]
+    },
+    passi: {
+      titolo: "Tre passaggi.",
+      voci: [
+        { t: "Mi scrivi", d: "Raccontami chi sei, cosa ti serve e per quando." },
+        { t: "Definiamo lo stile", d: "Concordiamo formati, tempi e look, partendo dalla tua immagine." },
+        { t: "Ricevi i file", d: "Grafiche e video pronti per i social, in alta qualità e consegnati in tempo per la partita." }
+      ],
+      cta: "Inizia ora"
+    },
+    ui: { reelTitle: "Video highlights", reelText: "Guarda gli ultimi highlights dei giocatori su Instagram.", reelBtn: "Guarda su Instagram", eyWork: "Portfolio", eyServices: "Servizi", eyStandard: "Perché io", eySteps: "Come funziona", eyAbout: "Dietro le grafiche", eyContact: "Contatti", fRole: "Sono un", rPlayer: "Giocatore", rAgency: "Agenzia", rClub: "Club", dPlayer: "Giocatore", dClub: "Club", dFixture: "Partita", dComp: "Competizione", dVenue: "Stadio", dTime: "Orario", dDesign: "Il design", dValue: "Il valore",
+          navServices: "Servizi", navWorks: "Lavori", navAbout: "Chi sono", navContact: "Contattami", heroBtn1: "Guarda i lavori",
+          worksTitle: "Lavori selezionati", aboutTitle: "Chi sono", contactTitle: "Parliamone",
+          fName: "Nome", fEmail: "Email", fMsg: "Cosa ti serve?", fSend: "Invia messaggio",
+          all: "Tutti", photo: "Foto", video: "Video", filter: "Filtra i lavori", open: "Apri", subject: "Contatto dal portfolio" }
+  },
+  en: {
+    tag: "Sports graphic designer",
+    titolo: "An image that matches your level.",
+    sottotitolo: "Bespoke graphics and video for professional players: match day, highlights and personal branding to bring your social media presence up to the level of your game. I also work with agencies and clubs.",
+    introLavori: "A selection of graphics and videos made for players, agencies and clubs. Click to enlarge.",
+    chiSono: [
+      "I’m Silvio Ghilardi and I create sports graphics and video. My goal is to give every professional player a recognisable, polished social image that amplifies his presence, match after match.",
+      "I work with players, but also with agencies that want to showcase their clients and clubs that need polished communication delivered on time, even right before kick-off."
+    ],
+    numeri: [
+      { valore: "4+",   etichetta: "years of experience" },
+      { valore: "30+",  etichetta: "collaborations" },
+      { valore: "100%", etichetta: "tailor-made for you" }
+    ],
+    contattiTesto: "Are you a professional player and want to grow your social media presence? Write to me and we’ll build your image together. If you’re an agency or a club, let’s talk about a tailor-made collaboration.",
+    ticker: ["Match day", "Video highlights", "Personal branding", "Announcements & milestones", "Agency packages", "Bespoke graphics"],
+    standard: {
+      titolo: "The standard.",
+      voci: [
+        { v: "24h", t: "Fast reply", d: "I reply within 24 hours and work around your match schedule, so you post while the moment still matters." },
+        { v: "Bespoke", t: "Design for every player", d: "Nothing off the shelf: every graphic is built around you, your style and your colours." },
+        { v: "Pro", t: "For those who are serious", d: "For players who want a profile that matches their level." }
+      ]
+    },
+    servizi: {
+      titolo: "What I create",
+      intro: "Everything a professional player needs to build a stronger social media presence, plus packages for those who work with several athletes.",
+      voci: [
+        { t: "Match day", d: "A graphic designed for every match, to introduce the fixture to your audience and set the tone for match day." },
+        { t: "Video highlights", d: "Dynamic edits of your best plays, ready for social media." },
+        { t: "Personal branding", d: "Recognisable templates, colours and style: a visual identity that’s only yours." },
+        { t: "Announcements and milestones", d: "Renewals, goals, appearances and records: the big moments announced the way they deserve." },
+        { t: "For agencies and clubs", d: "Ongoing packages for several athletes or a full season, with coordinated graphics." }
+      ]
+    },
+    passi: {
+      titolo: "Three steps.",
+      voci: [
+        { t: "Get in touch", d: "Tell me who you are, what you need and by when." },
+        { t: "We define the style", d: "We agree on formats, timing and look, starting from your image." },
+        { t: "You get the files", d: "Graphics and videos ready for social media, in high quality and delivered in time for the match." }
+      ],
+      cta: "Get started"
+    },
+    ui: { reelTitle: "Video highlights", reelText: "Watch the latest player highlights on Instagram.", reelBtn: "Watch on Instagram", eyWork: "Portfolio", eyServices: "Services", eyStandard: "Why me", eySteps: "How it works", eyAbout: "Behind the graphics", eyContact: "Contact", fRole: "I’m a", rPlayer: "Player", rAgency: "Agency", rClub: "Club", dPlayer: "Player", dClub: "Club", dFixture: "Fixture", dComp: "Competition", dVenue: "Venue", dTime: "Kick-off", dDesign: "The design", dValue: "The value",
+          navServices: "Services", navWorks: "Work", navAbout: "About", navContact: "Contact me", heroBtn1: "See the work",
+          worksTitle: "Selected work", aboutTitle: "About me", contactTitle: "Let’s talk",
+          fName: "Name", fEmail: "Email", fMsg: "What do you need?", fSend: "Send message",
+          all: "All", photo: "Photos", video: "Videos", filter: "Filter work", open: "Open", subject: "Message from portfolio" }
+  }
+};
+
+/* ---- I TUOI LAVORI / YOUR WORK ----
+   Per aggiungerne uno: copia una riga e cambia i campi.
+   tipo:   "foto" oppure "video"
+   thumb:  (facoltativo) versione leggera per la griglia, es. "img/lavori/thumbs/x.jpg"
+   file:   percorso immagine (es. "img/lavoro1.jpg"), meglio in verticale 9:16 (formato storia). Per i video è la copertina (facoltativa).
+   video:  solo per i video: link YouTube, link Vimeo oppure file .mp4 (es. "video/clip.mp4")
+   titolo: { it: "titolo italiano", en: "English title" }     cliente: giocatore / cliente (facoltativo)
+   dettagli (facoltativo): se presente, al clic compare la scheda con questi dati.
+           Ogni campo è facoltativo: giocatore, club, partita, competizione, stadio, orario,
+           design: { it, en } (come hai pensato la grafica), valore: { it, en } (cosa porta al giocatore)
+   Se "file" è vuoto compare un segnaposto colorato.                                                  */
+const WORKS = [
+  { tipo: "foto", file: "img/lavori/bertoli.jpg", thumb: "img/lavori/thumbs/bertoli.jpg", titolo: { it: "Pergolettese – Pro Vercelli", en: "Pergolettese – Pro Vercelli" }, cliente: "Marco Bertoli",
+    dettagli: { giocatore: "Marco Bertoli", club: "Pro Vercelli", partita: "Pergolettese – Pro Vercelli", competizione: "Serie C", stadio: "Stadio G. Voltini", orario: "15 novembre · 17:30",
+      design: { it: "Palette rosso e bianco, i colori del club. Doppio soggetto in primo piano con l’esultanza, sovrapposto a un lettering gigante e a un lieve effetto cromatico che dà movimento. Loghi, avversario e orario sono raccolti in basso a sinistra, per una lettura immediata.", en: "Red and white palette, the club colours. Two subjects up front celebrating, layered over giant lettering and a light chromatic effect that adds movement. Logos, opponent and kick-off time sit at the bottom left for an immediate read." },
+      valore: { it: "Una grafica dedicata che mette il giocatore al centro del post, con un’impostazione d’impatto pensata per feed e storie nel giorno della gara.", en: "A dedicated graphic that puts the player at the centre of the post, with an impactful layout built for feeds and stories on match day." } } },
+  { tipo: "foto", file: "img/lavori/faye.jpg", thumb: "img/lavori/thumbs/faye.jpg", titolo: { it: "Sporting CP – Bodø/Glimt", en: "Sporting CP – Bodø/Glimt" }, cliente: "Faye",
+    dettagli: { giocatore: "Souleymane Faye", club: "Sporting CP", partita: "Sporting CP – Bodø/Glimt", competizione: "UEFA Champions League · ottavi di finale", stadio: "Estádio José Alvalade, Lisbona", orario: "17:45",
+      design: { it: "Impaginazione chiara con la scritta Game Day in grande e un corsivo sovrapposto, nel verde e bianco dello Sporting. Il giocatore, in dinamica, taglia la composizione; nome, numero 15, stadio e orario sono ordinati ai lati, con i loghi di club, competizione e avversario in chiusura.", en: "Light layout with a large Game Day wordmark and an overlaid script, in Sporting’s green and white. The player cuts through the composition in motion; name, number 15, stadium and kick-off are set at the sides, with club, competition and opponent logos closing the design." },
+      valore: { it: "Una partita di Champions League richiede un’immagine all’altezza: il giocatore la condivide con una grafica curata, coerente con il livello della competizione.", en: "A Champions League match calls for an image to match: the player shares a polished graphic that fits the level of the competition." } } },
+  { tipo: "foto", file: "img/lavori/milani.jpg", thumb: "img/lavori/thumbs/milani.jpg", titolo: { it: "Folgore Caratese – Desenzano", en: "Folgore Caratese – Desenzano" }, cliente: "Lorenzo Milani",
+    dettagli: { giocatore: "Lorenzo Milani", club: "Desenzano", partita: "Folgore Caratese – Desenzano", competizione: "Serie C · 8ª giornata", stadio: "Albinoleffe Stadium", orario: "3 ottobre · 20:30",
+      design: { it: "Atmosfera notturna in blu elettrico con effetti di luce e fulmini. Il ritratto ingrandito, in trasparenza sullo sfondo, dialoga con la scritta Game Day mentre la figura in azione resta in primo piano. Loghi, data e orario sono in una riga sottile, per non appesantire la composizione.", en: "Night-time mood in electric blue with light effects and lightning. The enlarged, translucent portrait in the background works with the Game Day wordmark while the action figure stays up front. Logos, date and kick-off are kept in a thin line so the composition stays light." },
+      valore: { it: "Un post con una forte identità visiva, pensato per distinguersi nel feed del giorno gara e trasmettere l’energia della partita.", en: "A post with a strong visual identity, built to stand out in the match-day feed and convey the energy of the game." } } },
+  { tipo: "foto", file: "img/lavori/trepy.jpg", thumb: "img/lavori/thumbs/trepy.jpg", titolo: { it: "Como – Cagliari", en: "Como – Cagliari" }, cliente: "Yael Trepy",
+    dettagli: { giocatore: "Yael Trepy", club: "Cagliari", partita: "Como – Cagliari", competizione: "Serie A · 12ª giornata", stadio: "Unipol Domus, Cagliari", orario: "21 novembre · 15:00",
+      design: { it: "Composizione chiara e pulita, di taglio editoriale: ritratto in bianco e nero di grandi dimensioni, due scatti in azione e blocchi di blu. Un leggero effetto cromatico e il nome dell’avversario in rosso richiamano i colori del club. Competizione, giornata, data e orario sono ordinati nella parte alta.", en: "Clean, editorial-style composition: a large black-and-white portrait, two action shots and blocks of blue. A light chromatic effect and the opponent’s name in red echo the club colours. Competition, matchday, date and kick-off are arranged at the top." },
+      valore: { it: "Un taglio sobrio e riconoscibile, adatto a un campionato di vertice, che valorizza il giocatore con un’immagine elegante.", en: "A restrained, recognisable look suited to a top-flight league, presenting the player with an elegant image." } } },
+  { tipo: "foto", file: "img/lavori/samson.jpg", thumb: "img/lavori/thumbs/samson.jpg", titolo: { it: "Zemun – Partizan", en: "Zemun – Partizan" }, cliente: "Samson Nwulu",
+    dettagli: { giocatore: "Samson Nwulu", club: "Partizan", partita: "Zemun – Partizan", competizione: "Mozzart Superliga", orario: "sabato 18 luglio · 20:00",
+      design: { it: "Bianco e nero totale: lettering gotico di grandi dimensioni dietro il giocatore, ritratto sfocato in secondo piano e stemma del club in filigrana. I dati della partita e i loghi sono raccolti in basso, in un’unica riga ordinata.", en: "Pure black and white: giant gothic lettering behind the player, a blurred portrait in the background and the club crest as a watermark. Match details and logos sit together at the bottom in one tidy line." },
+      valore: { it: "Un’estetica forte e coerente con i colori del Partizan, che rende il post subito riconoscibile.", en: "A strong aesthetic in line with Partizan’s colours, making the post instantly recognisable." } } },
+  { tipo: "foto", file: "img/lavori/antolini.jpg", thumb: "img/lavori/thumbs/antolini.jpg", titolo: { it: "Pergolettese – Lumezzane", en: "Pergolettese – Lumezzane" }, cliente: "Jacopo Antolini",
+    dettagli: { giocatore: "Jacopo Antolini", club: "Pergolettese", partita: "Pergolettese – Lumezzane", competizione: "Serie C · 11ª giornata", stadio: "Stadio Voltini", orario: "25 ottobre · 17:30",
+      design: { it: "Collage in blu e giallo, i colori del club, con una scritta verticale a mano e un doppio scatto del giocatore, uno ingrandito e uno in azione. Una foto dello stadio e una fascia gialla sul campo ospitano data, orario e stadio, con i loghi di club e competizione in alto a sinistra.", en: "Blue and yellow collage, the club colours, with a hand-drawn vertical script and a double shot of the player, one enlarged and one in action. A stadium photo and a yellow band on the pitch hold date, time and venue, with club and competition logos at the top left." },
+      valore: { it: "Una grafica costruita sull’identità del club e sul momento della partita, con un carattere editoriale e distintivo.", en: "A graphic built on the club’s identity and the moment of the match, with a distinctive editorial character." } } },
+  { tipo: "foto", file: "img/lavori/garetto.jpg", thumb: "img/lavori/thumbs/garetto.jpg", titolo: { it: "Trento – Folgore Caratese", en: "Trento – Folgore Caratese" }, cliente: "Marco Garetto",
+    dettagli: { giocatore: "Marco Garetto", club: "Trento", partita: "Trento – Folgore Caratese", competizione: "Serie C · 9ª giornata", stadio: "Stadio Briamasco", orario: "11 ottobre · 17:30",
+      design: { it: "Impaginazione a blocchi verticali di taglio editoriale. Il numero 80, in grande sul retro della maglia, occupa il pannello principale; a lato, un riquadro riassume data, orario, avversario, stadio e giornata, accompagnato da due foto di contesto. Blu e giallo del Trento.", en: "Editorial-style layout of vertical blocks. The number 80, large on the back of the shirt, fills the main panel; at the side, a box sums up date, kick-off, opponent, venue and matchday, alongside two context photos. Trento’s blue and yellow." },
+      valore: { it: "Un formato ordinato che riunisce in un solo post le informazioni della gara e il volto del giocatore, leggibile in pochi secondi.", en: "A tidy format that brings the match information and the player’s image together in a single post, readable in seconds." } } },
+  { tipo: "foto", file: "img/lavori/barlocco.jpg", thumb: "img/lavori/thumbs/barlocco.jpg", titolo: { it: "Trento – Renate", en: "Trento – Renate" }, cliente: "Sergio Barlocco",
+    dettagli: { giocatore: "Sergio Barlocco", club: "AC Trento 1921", partita: "Trento – Renate", competizione: "Serie C · 37ª giornata", orario: "19 aprile · 14:30",
+      design: { it: "Blu e giallo del Trento con il portiere in primo piano, a pugni chiusi, e una seconda immagine in azione. Due fotografie in alto, i tifosi con la squadra e una parata, raccontano il contesto. Stemmi dei due club e dati della gara sono ordinati nella parte bassa.", en: "Trento’s blue and yellow with the goalkeeper up front, fists clenched, and a second action image. Two photographs at the top, the fans with the team and a save, set the context. Both club crests and the match details are arranged at the bottom." },
+      valore: { it: "Un post costruito attorno al portiere, con le immagini di squadra e tifosi a dare contesto alla partita.", en: "A post built around the goalkeeper, with team and fans imagery giving context to the match." } } }
+];
+
+/* ==========================================================
+   Da qui in giù è il codice: non serve modificarlo.
+   ========================================================== */
+const $ = s => document.querySelector(s);
+const el = (t, props = {}, kids = []) => { const e = Object.assign(document.createElement(t), props); kids.forEach(k => e.append(k)); return e; };
+
+let lang = DEFAULT_LANG;
+let saved = null;
+try { saved = localStorage.getItem("lang"); } catch (e) {}
+lang = saved || ((navigator.language || "").toLowerCase().startsWith("en") ? "en" : DEFAULT_LANG);
+if (!T[lang]) lang = DEFAULT_LANG;
+const tr = v => (v && typeof v === "object") ? (v[lang] || v.it) : v;
+
+const PALETTE = [["#1f3a5f","#0d1218"],["#3b2a5c","#0d1218"],["#17463f","#0d1218"],["#5c2a2a","#0d1218"],["#4a3f12","#0d1218"]];
+const placeholder = (i, tall) => {
+  const [a, b] = PALETTE[i % PALETTE.length], h = tall ? 1000 : 750;
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 ${h}"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="${a}"/><stop offset="1" stop-color="${b}"/></linearGradient></defs><rect width="800" height="${h}" fill="url(#g)"/><text x="400" y="${h/2}" fill="#fff" fill-opacity=".25" font-family="Arial" font-size="42" text-anchor="middle">${i + 1}</text></svg>`;
+  return "data:image/svg+xml;utf8," + encodeURIComponent(svg);
+};
+const parseVideo = u => {
+  if (!u) return null;
+  let m = u.match(/(?:youtu\.be\/|v=|embed\/|shorts\/)([\w-]{11})/);
+  if (m) return { kind: "iframe", src: `https://www.youtube.com/embed/${m[1]}?autoplay=1&rel=0`, thumb: `https://img.youtube.com/vi/${m[1]}/hqdefault.jpg` };
+  m = u.match(/vimeo\.com\/(?:video\/)?(\d+)/);
+  if (m) return { kind: "iframe", src: `https://player.vimeo.com/video/${m[1]}?autoplay=1` };
+  return { kind: "file", src: u };
+};
+
+const items = WORKS.map((w, i) => ({ ...w, i, v: w.tipo === "video" ? parseVideo(w.video) : null }));
+const grid = $("#grid"), lb = $("#lb"), stage = $("#stage");
+let filter = "tutti", cur = 0;
+
+const phoneWorks = () => {
+  const pick = (SITE.telefoni || []).map(n => items.find(w => (w.file || "").includes("/" + n + "."))).filter(Boolean);
+  return pick.length === 3 ? pick : items.filter(w => w.tipo === "foto").slice(0, 3);
+};
+function applyFilter() { items.forEach(w => w.node.hidden = !(filter === "tutti" || w.tipo === filter)); }
+
+function render() {
+  const t = T[lang], u = t.ui;
+  document.documentElement.lang = lang;
+  document.title = `${SITE.brand}${SITE.brandAccento} · ${t.tag}`;
+  document.querySelectorAll("[data-i18n]").forEach(n => n.textContent = u[n.dataset.i18n]);
+  document.querySelectorAll("[data-lang]").forEach(b => b.setAttribute("aria-pressed", b.dataset.lang === lang));
+
+  $("#logo").replaceChildren(el("img", { className: "ico", src: SITE.logoIcona, alt: "" }), el("img", { className: "word", src: SITE.logoScritta, alt: SITE.brand + SITE.brandAccento }));
+  $("#logo").setAttribute("aria-label", SITE.brand + SITE.brandAccento);
+  $("#heroTag").textContent = t.tag;
+  $("#heroTitle").textContent = t.titolo;
+  $("#heroText").textContent = t.sottotitolo;
+  if (SITE.heroImg) { const h = $("#heroImg"); h.src = SITE.heroImg; h.hidden = false; }
+  $("#worksIntro").textContent = t.introLavori;
+  $("#aboutText").replaceChildren(...t.chiSono.map(x => el("p", { textContent: x })));
+  $("#aboutImg").src = SITE.fotoProfilo || placeholder(2, true);
+  $("#aboutImg").alt = SITE.nome + " " + SITE.cognome;
+  $("#stats").replaceChildren(...t.numeri.map(n => el("div", {}, [el("b", { textContent: n.valore }), el("span", { textContent: n.etichetta })])));
+  $("#contactText").textContent = t.contattiTesto;
+  $("#links").replaceChildren(
+    el("li", {}, [el("a", { href: "mailto:" + SITE.email, textContent: SITE.email })]),
+    ...SITE.link.map(l => el("li", {}, [el("a", { href: l.url, target: "_blank", rel: "noopener", textContent: l.nome })])));
+  $("#reelBtn").href = SITE.reel;
+  $("#footer").textContent = `© ${new Date().getFullYear()} ${SITE.brand}${SITE.brandAccento} · ${SITE.nome} ${SITE.cognome}`;
+
+  const sv = t.servizi;
+  $("#servTitle").textContent = sv.titolo;
+  $("#servIntro").textContent = sv.intro;
+  $("#cards").replaceChildren(...sv.voci.map((v, i) => el("article", { className: "card" }, [el("span", { className: "n", textContent: String(i + 1).padStart(2, "0") }), el("h3", { textContent: v.t }), el("p", { textContent: v.d })])));
+  $("#stepsTitle").textContent = t.passi.titolo;
+  $("#steps").replaceChildren(...t.passi.voci.map(v => el("li", {}, [el("h3", { textContent: v.t }), el("p", { textContent: v.d })])));
+  $("#stepsCta").textContent = t.passi.cta;
+
+  $("#track").replaceChildren(...[0, 1].flatMap(k => t.ticker.map(x => el("span", { textContent: x }))));
+  $("#stdTitle").textContent = t.standard.titolo;
+  $("#big").replaceChildren(...t.standard.voci.map((v, i) => el("article", { className: "bigcard" }, [el("span", { className: "k", textContent: "0" + (i + 1) }), el("div", { className: "v", textContent: v.v }), el("h3", { textContent: v.t }), el("p", { textContent: v.d })])));
+  $("#phones").replaceChildren(...phoneWorks().map((w, k) => el("div", { className: "phone p" + (k + 1) }, [el("img", { src: w.thumb || w.file || placeholder(w.i, true), alt: "" })])));
+
+  // griglia
+  grid.replaceChildren();
+  items.forEach(w => {
+    const title = tr(w.titolo), b = el("button", { className: "work", type: "button" });
+    b.dataset.tipo = w.tipo;
+    b.setAttribute("aria-label", `${u.open}: ${title}`);
+    const thumb = w.thumb || w.file || (w.v && w.v.thumb);
+    if (thumb) b.append(el("img", { src: thumb, alt: title, loading: "lazy" }));
+    else if (w.v && w.v.kind === "file") b.append(el("video", { src: w.v.src + "#t=0.5", preload: "metadata", muted: true }));
+    else b.append(el("img", { src: placeholder(w.i, true), alt: title }));
+    if (w.tipo === "video") b.append(el("span", { className: "play" }));
+    b.append(el("span", { className: "cap" }, [w.cliente ? el("small", { textContent: w.cliente }) : "", title]));
+    b.onclick = () => { show(w.i); lb.showModal(); };
+    grid.append(b); w.node = b;
+  });
+
+  // filtri (solo se ci sono sia foto sia video)
+  const fl = $("#filters"); fl.replaceChildren(); fl.setAttribute("aria-label", u.filter);
+  if (new Set(items.map(w => w.tipo)).size > 1) {
+    [["tutti", u.all], ["foto", u.photo], ["video", u.video]].forEach(([k, label]) => {
+      const f = el("button", { type: "button", textContent: label });
+      f.setAttribute("aria-pressed", k === filter);
+      f.onclick = () => { filter = k; applyFilter(); fl.querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x === f)); };
+      fl.append(f);
+    });
+  }
+  applyFilter();
+}
+
+// lightbox
+function show(i) {
+  const w = items[i]; cur = i; stage.replaceChildren();
+  const title = tr(w.titolo);
+  if (w.tipo === "video" && w.v) {
+    stage.append(w.v.kind === "iframe"
+      ? el("iframe", { src: w.v.src, allow: "autoplay; fullscreen; picture-in-picture", allowFullscreen: true, title })
+      : el("video", { src: w.v.src, controls: true, autoplay: true }));
+  } else {
+    stage.append(el("img", { src: w.file || placeholder(w.i, true), alt: title }));
+  }
+  $("#lbCap").textContent = (w.cliente ? w.cliente + " · " : "") + title;
+  const box = $("#lbBox"), info = $("#lbInfo"), d = w.dettagli, u = T[lang].ui;
+  info.replaceChildren();
+  if (d) {
+    const rows = [["dPlayer", "giocatore"], ["dClub", "club"], ["dFixture", "partita"], ["dComp", "competizione"], ["dVenue", "stadio"], ["dTime", "orario"]].filter(([, k]) => d[k]);
+    info.append(el("h3", { textContent: title }));
+    if (rows.length) info.append(el("dl", {}, rows.flatMap(([l, k]) => [el("dt", { textContent: u[l] }), el("dd", { textContent: d[k] })])));
+    [["dDesign", "design"], ["dValue", "valore"]].forEach(([l, k]) => { if (d[k]) info.append(el("h4", { textContent: u[l] }), el("p", { textContent: tr(d[k]) })); });
+  }
+  box.classList.toggle("has-info", !!d); info.hidden = !d;
+}
+function step(d) {
+  const vis = items.filter(w => !w.node.hidden); if (!vis.length) return;
+  const p = vis.findIndex(w => w.i === cur);
+  show(vis[(p + d + vis.length) % vis.length].i);
+}
+lb.addEventListener("close", () => stage.replaceChildren());
+lb.querySelector(".x").onclick = () => lb.close();
+lb.querySelector(".prev").onclick = () => step(-1);
+lb.querySelector(".next").onclick = () => step(1);
+lb.addEventListener("click", e => { if (e.target === lb || e.target.classList.contains("lb")) lb.close(); });
+lb.addEventListener("keydown", e => { if (e.key === "ArrowLeft") step(-1); if (e.key === "ArrowRight") step(1); });
+
+// cambio lingua
+document.querySelectorAll("[data-lang]").forEach(b => b.onclick = () => {
+  lang = b.dataset.lang;
+  try { localStorage.setItem("lang", lang); } catch (e) {}
+  render();
+});
+
+// form: apre il client di posta con il messaggio già scritto
+$("#form").onsubmit = e => {
+  e.preventDefault();
+  const d = new FormData(e.target);
+  const role = T[lang].ui[d.get("role")];
+  const body = `${d.get("msg")}\n\n${d.get("nome")} (${role}) · ${d.get("email")}`;
+  location.href = `mailto:${SITE.email}?subject=${encodeURIComponent(T[lang].ui.subject + " · " + d.get("nome"))}&body=${encodeURIComponent(body)}`;
+};
+
+render();
+</script>
+</body>
+</html>

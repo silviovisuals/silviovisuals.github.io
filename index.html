@@ -172,6 +172,27 @@ dialog::backdrop{background:rgba(5,8,12,.94)}
 .lb aside p{color:var(--muted);margin-top:.4rem}
 @media(max-width:820px){.lb.has-info{grid-template-columns:1fr;grid-auto-rows:min-content;overflow:auto}.lb .stage>*{max-height:55vh}.lb aside{align-self:start;max-height:none}.lb aside h3{padding-right:2.5rem}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+.hero p .hl{display:block;margin-top:.7rem;color:var(--text);font-weight:600}
+.hp{position:absolute;left:-9999px;opacity:0;pointer-events:none}
+#formMsg{min-height:1.4em;font-weight:500}
+#formMsg.err{color:#ff9a9a}
+.btn:disabled{opacity:.6;cursor:wait}
+.hero .wrap>*{min-width:0}
+@media(max-width:900px){h1{font-size:clamp(2.2rem,11vw,5rem)}}
+/* 3) intestazione su telefono */
+header .wrap{gap:.6rem}
+.logo{min-width:0;flex:none}
+.logo img{flex:none}
+@media(max-width:560px){
+  nav{gap:.5rem}
+  .logo{gap:.45rem}
+  .logo .ico{height:28px}
+  .logo .word{height:12px}
+  nav a.cta{padding:.4rem .7rem;font-size:.85rem}
+  .lang button{padding:.35rem .5rem;font-size:.8rem}
+}
+@media(max-width:380px){.logo .ico{display:none}}
+@media(max-width:340px){nav{gap:.35rem}nav a.cta{padding:.35rem .5rem;font-size:.8rem}.lang button{padding:.3rem .4rem}}
 </style>
 </head>
 <body>
@@ -279,7 +300,9 @@ dialog::backdrop{background:rgba(5,8,12,.94)}
           </div>
         </fieldset>
         <label><span data-i18n="fMsg"></span><textarea name="msg" required></textarea></label>
-        <button class="btn" type="submit" data-i18n="fSend"></button>
+        <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <button class="btn" id="formBtn" type="submit" data-i18n="fSend"></button>
+        <p id="formMsg" role="status" aria-live="polite"></p>
       </form>
     </div>
   </section>
@@ -318,9 +341,10 @@ const SITE = {
   fotoProfilo: "img/silvio.jpg",
   email: "silvio.visuals@gmail.com",
   reel: "https://www.instagram.com/stories/highlights/18209844733339078/",   // highlights su Instagram
+  formKey: "dd57fe31-d11a-4db2-b2ad-26b37dc116cf",   // chiave gratuita di web3forms.com: se vuota, il modulo apre il programma di posta
   telefoni: ["bertoli", "faye", "milani"],   // le 3 grafiche nei telefoni in apertura (nome file senza estensione): sinistra, destra, centro
   link: [                 // aggiungi o togli i social
-    { nome: "@silvio.visuals", url: "https://instagram.com/silvio.visuals" },
+    { nome: "Instagram", url: "https://instagram.com/silvio.visuals" },
     { nome: "WhatsApp", url: "https://wa.me/393331835529" }
   ]
 };
@@ -330,7 +354,7 @@ const T = {
   it: {
     tag: "Sports graphic designer",
     titolo: "Un’immagine all’altezza del tuo livello.",
-    sottotitolo: "Grafiche e video su misura per giocatori professionisti: match day, highlights e personal branding per portare la tua presenza sui social al livello del tuo gioco. Lavoro anche con agenzie e club.",
+    sottotitolo: "Grafiche e video su misura per giocatori professionisti: match day, highlights e personal branding per portare la tua presenza sui social al livello del tuo gioco.\nLavoro anche con agenzie e club.",
     introLavori: "Una selezione di grafiche e video realizzati per giocatori, agenzie e club. Clicca per ingrandire.",
     chiSono: [
       "Sono Silvio Ghilardi e creo grafiche e video sportivi. Il mio obiettivo è dare a ogni giocatore professionista un’immagine social riconoscibile e curata, che amplifichi la sua presenza partita dopo partita.",
@@ -371,7 +395,7 @@ const T = {
       ],
       cta: "Inizia ora"
     },
-    ui: { reelTitle: "Video highlights", reelText: "Guarda gli ultimi highlights dei giocatori su Instagram.", reelBtn: "Guarda su Instagram", eyWork: "Portfolio", eyServices: "Servizi", eyStandard: "Perché io", eySteps: "Come funziona", eyAbout: "Dietro le grafiche", eyContact: "Contatti", fRole: "Sono un", rPlayer: "Giocatore", rAgency: "Agenzia", rClub: "Club", dPlayer: "Giocatore", dClub: "Club", dFixture: "Partita", dComp: "Competizione", dVenue: "Stadio", dTime: "Orario", dDesign: "Il design", dValue: "Il valore",
+    ui: { sending: "Invio in corso…", sent: "Messaggio inviato! Ti rispondo al più presto.", failed: "Invio non riuscito. Scrivimi direttamente a", reelTitle: "Video highlights", reelText: "Guarda gli ultimi highlights dei giocatori su Instagram.", reelBtn: "Guarda su Instagram", eyWork: "Portfolio", eyServices: "Servizi", eyStandard: "Perché io", eySteps: "Come funziona", eyAbout: "Dietro le grafiche", eyContact: "Contatti", fRole: "Sono un", rPlayer: "Giocatore", rAgency: "Agenzia", rClub: "Club", dPlayer: "Giocatore", dClub: "Club", dFixture: "Partita", dComp: "Competizione", dVenue: "Stadio", dTime: "Orario", dDesign: "Il design", dValue: "Il valore",
           navServices: "Servizi", navWorks: "Lavori", navAbout: "Chi sono", navContact: "Contattami", heroBtn1: "Guarda i lavori",
           worksTitle: "Lavori selezionati", aboutTitle: "Chi sono", contactTitle: "Parliamone",
           fName: "Nome", fEmail: "Email", fMsg: "Cosa ti serve?", fSend: "Invia messaggio",
@@ -380,7 +404,7 @@ const T = {
   en: {
     tag: "Sports graphic designer",
     titolo: "An image that matches your level.",
-    sottotitolo: "Bespoke graphics and video for professional players: match day, highlights and personal branding to bring your social media presence up to the level of your game. I also work with agencies and clubs.",
+    sottotitolo: "Bespoke graphics and video for professional players: match day, highlights and personal branding to bring your social media presence up to the level of your game.\nI also work with agencies and clubs.",
     introLavori: "A selection of graphics and videos made for players, agencies and clubs. Click to enlarge.",
     chiSono: [
       "I’m Silvio Ghilardi and I create sports graphics and video. My goal is to give every professional player a recognisable, polished social image that amplifies his presence, match after match.",
@@ -421,7 +445,7 @@ const T = {
       ],
       cta: "Get started"
     },
-    ui: { reelTitle: "Video highlights", reelText: "Watch the latest player highlights on Instagram.", reelBtn: "Watch on Instagram", eyWork: "Portfolio", eyServices: "Services", eyStandard: "Why me", eySteps: "How it works", eyAbout: "Behind the graphics", eyContact: "Contact", fRole: "I’m a", rPlayer: "Player", rAgency: "Agency", rClub: "Club", dPlayer: "Player", dClub: "Club", dFixture: "Fixture", dComp: "Competition", dVenue: "Venue", dTime: "Kick-off", dDesign: "The design", dValue: "The value",
+    ui: { sending: "Sending…", sent: "Message sent! I’ll get back to you soon.", failed: "Couldn’t send. Please email me directly at", reelTitle: "Video highlights", reelText: "Watch the latest player highlights on Instagram.", reelBtn: "Watch on Instagram", eyWork: "Portfolio", eyServices: "Services", eyStandard: "Why me", eySteps: "How it works", eyAbout: "Behind the graphics", eyContact: "Contact", fRole: "I’m a", rPlayer: "Player", rAgency: "Agency", rClub: "Club", dPlayer: "Player", dClub: "Club", dFixture: "Fixture", dComp: "Competition", dVenue: "Venue", dTime: "Kick-off", dDesign: "The design", dValue: "The value",
           navServices: "Services", navWorks: "Work", navAbout: "About", navContact: "Contact me", heroBtn1: "See the work",
           worksTitle: "Selected work", aboutTitle: "About me", contactTitle: "Let’s talk",
           fName: "Name", fEmail: "Email", fMsg: "What do you need?", fSend: "Send message",
@@ -524,7 +548,8 @@ function render() {
   $("#logo").setAttribute("aria-label", SITE.brand + SITE.brandAccento);
   $("#heroTag").textContent = t.tag;
   $("#heroTitle").textContent = t.titolo;
-  $("#heroText").textContent = t.sottotitolo;
+  const [h1, h2] = t.sottotitolo.split("\n");
+  $("#heroText").replaceChildren(h1, ...(h2 ? [el("span", { className: "hl", textContent: h2 })] : []));
   if (SITE.heroImg) { const h = $("#heroImg"); h.src = SITE.heroImg; h.hidden = false; }
   $("#worksIntro").textContent = t.introLavori;
   $("#aboutText").replaceChildren(...t.chiSono.map(x => el("p", { textContent: x })));
@@ -621,13 +646,33 @@ document.querySelectorAll("[data-lang]").forEach(b => b.onclick = () => {
   render();
 });
 
-// form: apre il client di posta con il messaggio già scritto
-$("#form").onsubmit = e => {
+// form: invio diretto (web3forms) oppure, senza chiave, apre il programma di posta
+$("#form").onsubmit = async e => {
   e.preventDefault();
-  const d = new FormData(e.target);
-  const role = T[lang].ui[d.get("role")];
-  const body = `${d.get("msg")}\n\n${d.get("nome")} (${role}) · ${d.get("email")}`;
-  location.href = `mailto:${SITE.email}?subject=${encodeURIComponent(T[lang].ui.subject + " · " + d.get("nome"))}&body=${encodeURIComponent(body)}`;
+  const f = e.target, d = new FormData(f), u = T[lang].ui, role = u[d.get("role")], out = $("#formMsg"), btn = $("#formBtn");
+  if (!SITE.formKey) {
+    const body = `${d.get("msg")}\n\n${d.get("nome")} (${role}) · ${d.get("email")}`;
+    location.href = `mailto:${SITE.email}?subject=${encodeURIComponent(u.subject + " · " + d.get("nome"))}&body=${encodeURIComponent(body)}`;
+    return;
+  }
+  btn.disabled = true; out.className = ""; out.textContent = u.sending;
+  try {
+    const body = new FormData();
+    body.append("access_key", SITE.formKey);
+    body.append("subject", `${u.subject} · ${d.get("nome")}`);
+    body.append("from_name", SITE.brand + SITE.brandAccento);
+    body.append("name", d.get("nome"));
+    body.append("email", d.get("email"));
+    body.append("sono", role);
+    body.append("message", d.get("msg"));
+    if (d.get("botcheck")) body.append("botcheck", "true");
+    const r = await fetch("https://api.web3forms.com/submit", { method: "POST", body });
+    const j = await r.json();
+    if (!j.success) throw new Error(j.message);
+    f.reset(); out.className = "ok"; out.textContent = u.sent;
+  } catch (err) {
+    out.className = "err"; out.textContent = `${u.failed} ${SITE.email}`;
+  } finally { btn.disabled = false; }
 };
 
 render();
